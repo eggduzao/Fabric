@@ -1,0 +1,41 @@
+[project]
+name = "fabric"
+description = "Package for reading, manipulating, and writing genomic data"
+license = { text = "MIT License" }
+authors = [
+ { name = "Andreas Heger", email = "andreas.heger@gmail.com"}
+]
+requires-python = ">=3.8"
+
+dynamic = [
+    "classifiers",
+    "readme",
+    "version",
+]
+
+[project.urls]
+"Documentation" = "https://fabric.readthedocs.io/"
+"Release notes" = "https://fabric.readthedocs.io/en/stable/release.html"
+
+[build-system]
+requires = ["setuptools>=59.0", "Cython>=3,<4"]
+build-backend = "setuptools.build_meta:__legacy__"
+
+[tool.cibuildwheel]
+before-all = "{project}/devtools/install-prerequisites.sh {project}/devtools/emulate-tools.py /usr/local/bin"
+# Necessary until we build libhts.a out-of-tree from within build_temp
+before-build = "make -C {project}/htslib distclean"
+
+test-requires = ["pytest"]
+test-command = "REF_PATH=: pytest {project}/tests"
+
+[tool.tox]
+legacy_tox_ini = """
+    [tox]
+    envlist = py38, py311
+
+    [testenv]
+    deps = pytest
+    setenv = REF_PATH=:
+    commands = pytest tests
+"""

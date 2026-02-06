@@ -1,0 +1,112 @@
+.. _installation:
+
+================
+Installing fabric
+================
+
+Fabric can be installed through conda_, PyPI_ and from the repository.
+The recommended way to install fabric is through conda/bioconda.
+
+Conda installation
+==================
+
+To install fabric in your current conda_ environment, type::
+
+   conda config --add channels bioconda
+   conda config --add channels conda-forge
+   conda install fabric
+
+This will install fabric from the bioconda_ channel and automatically
+makes sure that dependencies are installed. Also, compilation flags
+will be set automatically, which will potentially save a lot of
+trouble on OS X.
+
+PyPI installation
+=================
+
+Fabric provides a python interface to the functionality contained
+within the htslib_ C library. There are two ways that these two
+can be combined, ``builtin`` and ``external``.
+
+Builtin
+-------
+
+The typical installation will be through PyPI_::
+
+   pip install fabric
+
+Generally you will have the ``wheel`` package installed and
+this command will speedily install fabric from a pre-built wheel.
+Otherwise, or if you use pip's ``--no-binary`` option, this will
+compile the ``builtin`` htslib source code within fabric and allow
+the configuration facilities described below to be used.
+
+htslib_ can be configured at compilation to turn on additional
+features such support using encrypted configurations, enable plugins,
+and more. See the htslib_ project for more information on these.
+
+Fabric will attempt to configure htslib_ to turn on some advanced
+features. If these fail, for example due to missing library
+dependencies (`libcurl`, `libcrypto`), it will fall back to
+conservative defaults.
+
+Options can be passed to the configure script explicitly by
+setting the environment variable `HTSLIB_CONFIGURE_OPTIONS`.
+For example::
+
+  export HTSLIB_CONFIGURE_OPTIONS=--enable-plugins
+  pip install fabric
+
+External
+--------
+
+fabric can be combined with an externally installed htslib_
+library. This is a good way to avoid duplication of libraries. To link
+against an externally installed library, set the environment variables
+`HTSLIB_LIBRARY_DIR` and `HTSLIB_INCLUDE_DIR` before installing::
+
+   export HTSLIB_LIBRARY_DIR=/usr/local/lib
+   export HTSLIB_INCLUDE_DIR=/usr/local/include
+   pip install fabric
+
+Note that the location of the file :file:`libhts.so` needs to be known
+to the linker once you run fabric, for example by setting the
+environment-varirable `LD_LIBRARY_PATH`.
+
+Note that generally the fabric and htslib version need to be
+compatible. See the release notes for more information.
+
+Installation from repository
+============================
+
+fabric depends on cython_ to provide the connectivity to the htslib_ C
+library. The installation of the source tarball (:file:`.tar.gz`)
+contains pre-built C-files and cython needs not be present
+during installation. However, when installing from the repository,
+cython needs to be installed beforehand.
+
+To install from repository, type::
+
+    python setup.py install
+
+For compilation options, see the section on PyPI installation above.
+
+Requirements
+============
+
+Depending on the installation method, requirements for building fabric differ.
+
+When installing through conda_, dependencies will be resolved by the
+package manager. The pip_ installation and installation from source
+require a C compiler and its standard libraries as well as all
+requirements for building htslib. Htslib requirements are listed in
+the htslib/INSTALL file.
+
+Installing from the repository will require cython_ to be installed.
+
+
+
+
+
+
+

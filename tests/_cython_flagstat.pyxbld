@@ -1,0 +1,8 @@
+def make_ext(modname, pyxfilename):
+    from distutils.extension import Extension
+    import fabric
+    return Extension(name=modname,
+                     sources=[pyxfilename],
+                     extra_link_args=fabric.get_libraries(),
+                     include_dirs=fabric.get_include(),
+                     define_macros=fabric.get_defines())

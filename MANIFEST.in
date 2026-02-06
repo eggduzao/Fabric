@@ -1,0 +1,49 @@
+#
+# Use .add_data_files and .add_data_dir methods in a appropriate
+# setup.py files to include non-python files such as documentation,
+# data, etc files to distribution. Avoid using MANIFEST.in for that.
+#
+include MANIFEST.in
+include COPYING
+include NEWS
+include INSTALL
+include KNOWN_BUGS
+include THANKS
+include requirements-dev.txt
+include fabric/libc*.pxd
+include fabric/libc*.pyx
+include fabric/libc*.c
+include fabric/*.c
+include fabric/*.h
+exclude fabric/config.py
+
+include win32/*.[ch]
+
+# exclude tests from sdist tarball as they require additional data
+prune tests/
+
+# samtools
+include samtools/LICENSE samtools/README samtools/lz4/LICENSE
+recursive-include samtools *.[ch]
+include samtools/version.sh
+exclude samtools/*config*.h
+
+# bcftools
+include bcftools/LICENSE bcftools/README
+include bcftools/*.[ch]
+include bcftools/version.sh
+exclude bcftools/*config*.h
+
+# htslib
+include htslib/LICENSE htslib/README
+recursive-include htslib *.[ch]
+exclude htslib/*config*.h
+
+include htslib/configure.ac htslib/m4/*.m4 htslib/*.in
+include htslib/configure htslib/config.guess htslib/config.sub htslib/version.sh
+include htslib/Makefile htslib/*.mk
+exclude htslib/config.mk htslib/htscodecs.mk
+
+# documentation
+include doc/*.py doc/*.rst
+include doc/Makefile doc/make.bat doc/requirements-rtd.txt
